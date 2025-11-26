@@ -83,7 +83,9 @@ L’historique est incorporé dans le prompt -> permet de garder le fil d’une 
 `pip install -r requirements.txt`
 
 2. Ajouter la clé API OpenAI
+
 Créer `.env` :
+
 `OPENAI_API_KEY="votre_cle"`
 
 ---
@@ -91,6 +93,7 @@ Créer `.env` :
 ## Ingestion
 
 Places tes docs ou garde ceux déjà en place dans `data/docs_corpus`
+
 Lance :
 `python source/embed.py`
 
@@ -99,4 +102,5 @@ Lance :
 ## Utilisation de l'app de chat
 
 Lance :
+
 `python source/chat.py`
