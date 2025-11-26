@@ -2,8 +2,9 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from retriever import retrieve_context
-load_dotenv()
 
+
+load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def build_prompt(context_items, conv_history, question):
