@@ -63,5 +63,5 @@ def build_vector_db(chunks, batch_size=50):
     print("base vectorielle créée!!!!!")
 
 if __name__ == "__main__":
-    chunks = build_chunks("data/raw_docs")
+    chunks = build_chunks("data/docs_corpus")
     build_vector_db(chunks)

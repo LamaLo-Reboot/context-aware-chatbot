@@ -7,6 +7,11 @@ from retriever import retrieve_context
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+class bcolors:
+    WHITE = "\033[37m"
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+
 def build_prompt(context_items, conv_history, question):
 
     #contexte
@@ -59,10 +64,11 @@ def chat():
 
     conv_history = []
 
-    print("Comment puis-je vous aider ?\n(Tapez 'exit' pour quitter le chat).")
+    print(f"\n{bcolors.OKGREEN}Assistant >>{bcolors.WHITE} Comment puis-je vous aider ?\n(Tapez 'exit' pour quitter le chat). ")
 
     while True:
-        user_input = input("\nVous >> ")
+
+        user_input = input(f"\n{bcolors.OKCYAN}Vous >>{bcolors.WHITE} ")
     
         if user_input.lower() == "exit":
             break
@@ -79,8 +85,8 @@ def chat():
         ).choices[0].message.content
 
         conv_history.append({"role": "assistant", "content": llm_response})
-
-        print("\nAssistant >>", llm_response)
+        
+        print(f"\n{bcolors.OKGREEN}Assistant >>{bcolors.WHITE} ", llm_response)
 
 if __name__ == "__main__":
     chat()
