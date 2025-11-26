@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from retriever import retrieve_context
-
+from decompose import decompose_query
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -75,7 +75,12 @@ def chat():
         
         conv_history.append({"role": "utilisateur", "content": user_input})
         
-        context = retrieve_context(user_input)
+        #on decoupe la question pour savoir si il y a plusieurs taches et on les traite une par une (ex: explique-moi comment fonctionne geometry ET compare avec physics)
+        subtasks = decompose_query(user_input)
+        contexts = []
+        for task in subtasks:
+            context = retrieve_context(task, k=5)
+            contexts.append({"task": task, "ctx": context})
 
         prompt = build_prompt(context, conv_history, user_input)
 

@@ -3,9 +3,9 @@ from split import build_chunks
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+
+
 load_dotenv()
-
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 chroma_client = chromadb.PersistentClient(path="../data/vector_db")
@@ -41,9 +41,14 @@ def build_vector_db(chunks, batch_size=50):
 
     embeddings = []
 
+    max_batch = 5461
     for i in range(0, len(texts), batch_size):
         batch = texts[i:i + batch_size]
+        if (i + len(batch)) > max_batch:
+            print("Corpus trop grand pour ChromaDB. Veuillez réessayer avec un corpus plus petit")
+            return
         print(f"Batch {i} -> {i + len(batch)}")
+        
 
         response = client.embeddings.create(
             model="text-embedding-3-small",

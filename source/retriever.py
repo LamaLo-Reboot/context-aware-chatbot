@@ -1,11 +1,10 @@
 import chromadb
-from split import build_chunks
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+
+
 load_dotenv()
-
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 chroma_client = chromadb.PersistentClient(path="../data/vector_db")
