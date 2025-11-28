@@ -85,9 +85,10 @@ def chat():
         #on decoupe la question pour savoir si il y a plusieurs taches et on les traite une par une (ex: explique-moi comment fonctionne geometry ET compare avec physics)
         subtasks = decompose_query(user_input)
         contexts = []
+        flat_context = []
         for task in subtasks:
-            context = retrieve_context(task, k=5)
-            contexts.append({"task": task, "ctx": context})
+            ctx = retrieve_context(task, k=5)
+            flat_context.extend(ctx) 
 
         #tous les 10 tours on fait appel à un llm pour résumer l'historique de la conversation afin d'alléger le prompt envoyé au llm chat 
         if (history_counter >= 10):
@@ -109,12 +110,12 @@ def chat():
 
             history_counter = 0
 
-            prompt = build_prompt(
-                context_items=contexts,
-                conv_summary=conv_summary,
-                conv_history_raw=conv_history_raw,
-                question=user_input
-            )
+        prompt = build_prompt(
+            context_items=flat_context,
+            conv_summary=conv_summary,
+            conv_history_raw=conv_history_raw,
+            question=user_input
+        )
 
         llm_response = client.chat.completions.create(
             model="gpt-4o-mini",
